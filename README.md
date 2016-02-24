@@ -24,7 +24,7 @@ pod "RealmDefaults"
 
 ```swift
 public class RealmDefaults : RealmSwift.Object {
-    
+
     public class func purge()
 
     public class func schemaVersion() -> UInt64
@@ -37,7 +37,7 @@ public class RealmDefaults : RealmSwift.Object {
 }
 ```
 
-1. Definition
+### Create subclass of RealmDefaults.
 
 ```swift
 import RealmDefaults
@@ -54,9 +54,9 @@ class MyAccount: RealmDefaults {
 }
 ```
 
-2. Read & Write
+### Read & Write
 
-```
+```swift
 MyAccount.write { account in
     account.name = "muukii"
     account.age = 25
