@@ -1,0 +1,22 @@
+PODS:
+  - Realm (0.98.2):
+    - Realm/Headers (= 0.98.2)
+  - Realm/Headers (0.98.2)
+  - RealmDefaults (0.1.0):
+    - RealmSwift (~> 0.98.2)
+  - RealmSwift (0.98.2):
+    - Realm (= 0.98.2)
+
+DEPENDENCIES:
+  - RealmDefaults (from `../`)
+
+EXTERNAL SOURCES:
+  RealmDefaults:
+    :path: ../
+
+SPEC CHECKSUMS:
+  Realm: 88a147fe04b8f07191a676b15c779b2b448991de
+  RealmDefaults: 05968c42b25a711d9ba6546b5938864058405e91
+  RealmSwift: 9907c7415b3e19ef2ab9f89878fc890f03f93aea
+
+COCOAPODS: 0.39.0
