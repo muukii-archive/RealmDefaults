@@ -27,6 +27,8 @@ public class RealmDefaults : RealmSwift.Object {
 
     public class func purge()
 
+    public static func write(@noescape block: (Self) -> Void)
+
     public class func schemaVersion() -> UInt64
 
     public class func defaultsName() -> String
