@@ -20,6 +20,54 @@ it, simply add the following line to your Podfile:
 pod "RealmDefaults"
 ```
 
+## Usage
+
+```swift
+public class RealmDefaults : RealmSwift.Object {
+    
+    public class func purge()
+
+    public class func schemaVersion() -> UInt64
+
+    public class func defaultsName() -> String
+
+    public class func filePath() -> String
+
+    public class func configuration() -> RealmSwift.Realm.Configuration
+}
+```
+
+1. Definition
+
+```swift
+import RealmDefaults
+
+class MyAccount: RealmDefaults {
+
+    dynamic var name: String?
+    dynamic var age: Int = 0
+    dynamic var phoneNumber: String?
+
+    override class func schemaVersion() -> UInt64 {
+        return 3
+    }
+}
+```
+
+2. Read & Write
+
+```
+MyAccount.write { account in
+    account.name = "muukii"
+    account.age = 25
+    account.phoneNumber = "080-0000-0000"
+}
+
+print(MyAccount.instance.name) // -> muukii
+print(MyAccount.instance.age) // 25
+print(MyAccount.instance.phoneNumber) // 080-0000-0000
+```
+
 ## Author
 
 muukii, m@muukii.me
