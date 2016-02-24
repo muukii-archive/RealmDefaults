@@ -7,3 +7,9 @@ target 'RealmDefaults_Tests', :exclusive => true do
 
   
 end
+
+target 'RealmDefaults_Demo', :exclusive => true do
+  pod 'RealmDefaults', :path => '../'
+
+  
+end
