@@ -39,6 +39,13 @@ extension RealmDefaultsType where Self: RealmDefaults {
     
     public static func write(@noescape block: (Self) -> Void) {
         self.init()
+        
+        self.willWrite()
+        
+        defer {
+            self.didWrite()
+        }
+        
         do {
             let realm = try Realm(configuration: self.configuration())
             if let object = realm.objectForPrimaryKey(self, key: primaryKeyValue) {
@@ -84,6 +91,11 @@ private let primaryKeyValue = "RealmDefaults"
 public class RealmDefaults: RealmSwift.Object, RealmDefaultsType {
     
     public class func purge() {
+        self.willPurge()
+        defer {
+            self.didPurge()
+        }
+        
         do {
             let realm = try Realm(configuration: self.configuration())
             try realm.write {
@@ -118,7 +130,7 @@ public class RealmDefaults: RealmSwift.Object, RealmDefaultsType {
             readOnly: false,
             schemaVersion: self.schemaVersion(),
             migrationBlock: { (migration, oldSchemaVersion) -> Void in
-            
+                self.migration(migration, oldSchemaVersion: oldSchemaVersion)
             },
             objectTypes: [self])
     }
@@ -127,6 +139,26 @@ public class RealmDefaults: RealmSwift.Object, RealmDefaultsType {
     // MARK: Object
     public final override class func primaryKey() -> String? {
         return "__identifier"
+    }
+    
+    public class func willWrite() {
+        
+    }
+    
+    public class func didWrite() {
+        
+    }
+    
+    public class func willPurge() {
+        
+    }
+    
+    public class func didPurge() {
+        
+    }
+    
+    public class func migration(migration: Migration, oldSchemaVersion: UInt64) {
+        
     }
     
     // MARK: Internal
