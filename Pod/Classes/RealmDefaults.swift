@@ -41,12 +41,15 @@ extension RealmDefaultsType where Self: RealmDefaults {
         self.init()
         do {
             let realm = try Realm(configuration: self.configuration())
-            var object = realm.objectForPrimaryKey(self, key: primaryKeyValue)
-            if object == nil {
-                object = try self.create(realm)
-            }
-            try realm.write {
-                block(object!)
+            if let object = realm.objectForPrimaryKey(self, key: primaryKeyValue) {
+                try realm.write {
+                    block(object)
+                }
+            } else {
+                let object = try self.create(realm)
+                try realm.write {
+                    block(object)
+                }
             }
         } catch {
             // TODO:
