@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "RealmDefaults"
-  s.version          = "0.2.0"
+  s.version          = "0.3.0"
   s.summary          = "RealmDefaults is a Simple value store."
 
   s.description      = <<-DESC
@@ -16,7 +16,6 @@ Pod::Spec.new do |s|
                        DESC
 
   s.homepage         = "https://github.com/muukii/RealmDefaults"
-  # s.screenshots     = "www.example.com/screenshots_1", "www.example.com/screenshots_2"
   s.license          = 'MIT'
   s.author           = { "muukii" => "m@muukii.me" }
   s.source           = { :git => "https://github.com/muukii/RealmDefaults.git", :tag => s.version.to_s }
@@ -30,5 +29,5 @@ Pod::Spec.new do |s|
     'RealmDefaults' => ['Pod/Assets/*.png']
   }
 
-  s.dependency 'RealmSwift', '~> 0.98.2'
+  s.dependency 'RealmSwift', '~> 0.100.0'
 end

@@ -64,16 +64,33 @@ extension RealmDefaultsType where Self: RealmDefaults {
     }
     
     public static var instance: Self {
-        do {
+        
+        let create: () throws -> Self = {
             let realm = try Realm(configuration: self.configuration())
             if let object = realm.objectForPrimaryKey(self, key: primaryKeyValue) {
                 return object
             }
-            
             return try self.create(realm)
+        }
+        
+        do {
+            return try create()
         } catch {
-            // TODO:
-            fatalError("RealmDefaults Fatal Error: Failed to create Realm \(error)")
+            
+            let error = error as NSError
+            if error.code == 1 {
+                
+                do {
+                    try NSFileManager.defaultManager().removeItemAtURL(NSURL(fileURLWithPath: self.filePath()))
+                    return try create()
+                } catch {
+                    fatalError("RealmDefaults Fatal Error: Failed to re-create Realm \(error)")
+                }
+                
+            } else {
+            
+                fatalError("RealmDefaults Fatal Error: Failed to create Realm \(error)")
+            }
         }
     }
     
@@ -122,9 +139,9 @@ public class RealmDefaults: RealmSwift.Object, RealmDefaultsType {
     }
     
     public class func configuration() -> RealmSwift.Realm.Configuration {
-        
+       
         return RealmSwift.Realm.Configuration(
-            path: self.filePath(),
+            fileURL: NSURL(fileURLWithPath: self.filePath()),
             inMemoryIdentifier: nil,
             encryptionKey: nil,
             readOnly: false,
