@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = "RealmDefaults"
-  s.version          = "0.3.0"
+  s.version          = "0.4.0"
   s.summary          = "RealmDefaults is a Simple value store."
 
   s.description      = <<-DESC
