@@ -25,9 +25,6 @@ Pod::Spec.new do |s|
   s.requires_arc = true
 
   s.source_files = 'Pod/Classes/**/*'
-  s.resource_bundles = {
-    'RealmDefaults' => ['Pod/Assets/*.png']
-  }
 
   s.dependency 'RealmSwift', '~> 0.100.0'
 end
