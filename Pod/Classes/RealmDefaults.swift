@@ -37,6 +37,15 @@ public protocol RealmDefaultsType: class {
 
 extension RealmDefaultsType where Self: RealmDefaults {
     
+    public static func replace(object: Self) {
+        do {
+            let realm = try Realm(configuration: self.configuration())
+            realm.add(object, update: true)
+        } catch {
+            // TODO:
+        }
+    }
+    
     public static func write(@noescape block: (Self) -> Void) {
         self.init()
         
