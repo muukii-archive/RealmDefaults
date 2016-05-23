@@ -40,7 +40,9 @@ extension RealmDefaultsType where Self: RealmDefaults {
     public static func replace(object: Self) {
         do {
             let realm = try Realm(configuration: self.configuration())
-            realm.add(object, update: true)
+            try realm.write {
+                realm.add(object, update: true)
+            }
         } catch {
             // TODO:
         }
