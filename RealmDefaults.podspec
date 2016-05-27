@@ -26,5 +26,5 @@ Pod::Spec.new do |s|
 
   s.source_files = 'Pod/Classes/**/*'
 
-  s.dependency 'RealmSwift', '~> 0.100'
+  s.dependency 'RealmSwift', '~> 1.0'
 end
