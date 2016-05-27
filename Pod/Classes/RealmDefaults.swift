@@ -31,24 +31,20 @@ import RealmSwift
 
 public protocol RealmDefaultsType: class {
     
-    static func write(@noescape block: (Self) -> Void)
+    static func write(@noescape block: (Self) throws -> Void) throws
     static func configuration() -> RealmSwift.Realm.Configuration
 }
 
 extension RealmDefaultsType where Self: RealmDefaults {
     
-    public static func replace(object: Self) {
-        do {
-            let realm = try Realm(configuration: self.configuration())
-            try realm.write {
-                realm.add(object, update: true)
-            }
-        } catch {
-            // TODO:
+    public static func replace(object: Self) throws {
+        let realm = try Realm(configuration: self.configuration())
+        try realm.write {
+            realm.add(object, update: true)
         }
     }
     
-    public static func write(@noescape block: (Self) -> Void) {
+    public static func write(@noescape block: (Self) throws -> Void) throws {
         self.init()
         
         self.willWrite()
@@ -57,20 +53,34 @@ extension RealmDefaultsType where Self: RealmDefaults {
             self.didWrite()
         }
         
-        do {
-            let realm = try Realm(configuration: self.configuration())
-            if let object = realm.objectForPrimaryKey(self, key: primaryKeyValue) {
-                try realm.write {
-                    block(object)
-                }
-            } else {
-                let object = try self.create(realm)
-                try realm.write {
-                    block(object)
-                }
+        let realm = try Realm(configuration: self.configuration())
+        if let object = realm.objectForPrimaryKey(self, key: primaryKeyValue) {
+            
+            realm.beginWrite()
+            
+            do {
+                try block(object)
+            } catch {
+                realm.cancelWrite()
+                throw error
             }
-        } catch {
-            // TODO:
+            
+            try realm.commitWrite()
+            
+        } else {
+            
+            let object = try self.create(realm)
+           
+            realm.beginWrite()
+            
+            do {
+                try block(object)
+            } catch {
+                realm.cancelWrite()
+                throw error
+            }
+            
+            try realm.commitWrite()
         }
     }
     
