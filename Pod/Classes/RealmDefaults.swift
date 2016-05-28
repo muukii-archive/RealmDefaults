@@ -99,7 +99,7 @@ extension RealmDefaultsType where Self: RealmDefaults {
         } catch {
             
             let error = error as NSError
-            if error.code == 1 {
+            if error.code == 10 {
                 
                 do {
                     try NSFileManager.defaultManager().removeItemAtURL(NSURL(fileURLWithPath: self.filePath()))
