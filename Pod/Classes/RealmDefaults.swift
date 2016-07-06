@@ -95,7 +95,18 @@ extension RealmDefaultsType where Self: RealmDefaults {
         }
         
         do {
-            return try create()
+            if let cachedObjectForMainThread = self.cachedObjectForMainThread[String(self)] where NSThread.isMainThread() == true {
+                return cachedObjectForMainThread as! Self
+            }
+            
+            let object = try create()
+            
+            if NSThread.isMainThread() {
+                self.cachedObjectForMainThread[String(self)] = object
+            }
+            
+            return object
+            
         } catch {
             
             let error = error as NSError
@@ -201,5 +212,6 @@ public class RealmDefaults: RealmSwift.Object, RealmDefaultsType {
     
     // MARK: Internal
     internal dynamic var __identifier: String = primaryKeyValue
-
+    
+    private static var cachedObjectForMainThread: [String : RealmSwift.Object] = [:]
 }
